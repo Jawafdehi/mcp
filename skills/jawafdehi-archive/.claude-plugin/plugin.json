@@ -1,0 +1,19 @@
+{
+  "name": "jawafdehi-archive",
+  "description": "Research Nepali corruption cases, public officials, government bodies and court records through the Jawafdehi MCP server.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Jawafdehi Initiative",
+    "url": "https://jawafdehi.org"
+  },
+  "homepage": "https://github.com/Jawafdehi/mcp",
+  "license": "LicenseRef-Hippocratic-3.0",
+  "keywords": [
+    "jawafdehi",
+    "nepal",
+    "accountability",
+    "corruption",
+    "courts",
+    "mcp"
+  ]
+}

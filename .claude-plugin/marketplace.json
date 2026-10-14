@@ -1,0 +1,19 @@
+{
+  "name": "jawafdehi-mcp",
+  "owner": {
+    "name": "Jawafdehi Initiative",
+    "url": "https://jawafdehi.org"
+  },
+  "metadata": {
+    "description": "Agent skills for the Jawafdehi MCP server at https://api.jawafdehi.org/mcp.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "jawafdehi-archive",
+      "source": "./skills/jawafdehi-archive",
+      "description": "Research Nepali corruption cases, public officials, government bodies and court records through the Jawafdehi MCP server.",
+      "category": "research"
+    }
+  ]
+}
