@@ -121,8 +121,17 @@ Install it in Claude Code:
 Requires Claude Code 2.1.275 or later; on earlier versions run
 `/plugin marketplace add Jawafdehi/mcp` first.
 
-For any other agent, copy `skills/jawafdehi-archive/SKILL.md` into wherever it keeps
-its instructions — `.cursor/rules/`, `AGENTS.md`, a system prompt.
+For Cursor, Codex and anything else that reads `SKILL.md`, use the
+[`skills`](https://github.com/vercel-labs/skills) CLI:
+
+```bash
+npx skills add Jawafdehi/mcp --skill jawafdehi-archive
+```
+
+Add `-g` to install it for every project rather than this one, `-a claude-code` to pick
+a single agent, or `--copy` if your agent does not follow symlinks. Failing all that,
+copy `skills/jawafdehi-archive/SKILL.md` into wherever your agent keeps its
+instructions.
 
 Reading *inside* one document — a page range, a table or a chart at a time — is covered
 by a companion skill shipped from the API repo:
