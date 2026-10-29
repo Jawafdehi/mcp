@@ -1,7 +1,7 @@
 {
   "name": "jawafdehi-archive",
-  "description": "Research Nepali corruption cases, public officials, government bodies and court records through the Jawafdehi MCP server.",
-  "version": "0.1.0",
+  "description": "Research Nepali corruption cases, public officials, government bodies and court records through the Jawafdehi MCP server, and answer from them with the archive's citation and legal-accuracy rules.",
+  "version": "0.2.0",
   "author": {
     "name": "Jawafdehi Initiative",
     "url": "https://jawafdehi.org"

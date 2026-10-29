@@ -110,7 +110,11 @@ an agent will burn a context window on one document, or answer a question about 
 person from the court corpus when the case corpus is the right place to look.
 
 [`skills/jawafdehi-archive`](skills/jawafdehi-archive) is an [agent skill](https://docs.claude.com/en/docs/claude-code/skills) that teaches the call
-order, which tool answers which question, and the traps in the data.
+order, which tool answers which question, the traps in the data, and how to answer from
+it — keeping accused apart from convicted, never summing बिगो figures across cases, and
+citing a source for every claim. Two reference files load on demand: `organisation.md`
+(what Jawafdehi is, who runs it, funding, reporting a case, licensing and reuse) and
+`glossary.md` (the Nepali and legal terms that appear in results).
 
 Install it in Claude Code:
 
