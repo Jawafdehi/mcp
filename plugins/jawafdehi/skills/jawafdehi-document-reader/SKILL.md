@@ -216,7 +216,7 @@ Holding a document is not having read it; most of the archive has never been tra
 | Signal | Meaning |
 |---|---|
 | `jawafdehi:get_document_overview` has no `content` | Not parsed. Nothing in it can be quoted — cite it as a holding, or link the PDF. |
-| `reading: "not started"` | Unread, and nothing has asked for it. If the user wants its contents, `jawafdehi:request_document_read(iri=iri)` queues it (the only document tool that changes anything; OCR costs money per page). Check back later with `get_document_overview`. |
+| `reading: "not started"` | Unread, and nothing has asked for it. If the user wants its contents, say which document it is and explain that `jawafdehi:request_document_read(iri=iri)` queues extraction and, for a scan, OCR, which costs money per page and may take a while. Call it only after the user explicitly agrees: a request to read or summarise the document is not approval to queue it. Then check back later with `jawafdehi:get_document_overview`. |
 | `pages_read` < `pages` | Some pages failed OCR; their text returns empty. |
 | `readable: 0` on a source | We hold those documents and have transcribed none. |
 | `readable: null` | Not computed yet. This is **not** zero. |
