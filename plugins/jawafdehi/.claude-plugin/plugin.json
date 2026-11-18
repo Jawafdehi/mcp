@@ -1,0 +1,23 @@
+{
+  "name": "jawafdehi",
+  "description": "Nepal's open accountability archive in Claude: search published corruption and accountability cases, the people and organisations in them, Nepal's court records and source documents such as Auditor General reports, through the Jawafdehi MCP server, with skills for citing and reading documents correctly.",
+  "version": "0.3.0",
+  "author": {
+    "name": "Jawafdehi Initiative",
+    "email": "inquiry@jawafdehi.org.np",
+    "url": "https://jawafdehi.org.np"
+  },
+  "homepage": "https://jawafdehi.org/mcp/",
+  "repository": "https://github.com/Jawafdehi/mcp",
+  "license": "LicenseRef-Hippocratic-3.0",
+  "keywords": [
+    "jawafdehi",
+    "nepal",
+    "accountability",
+    "corruption",
+    "courts",
+    "documents",
+    "mcp"
+  ],
+  "privacyPolicyUrl": "https://jawafdehi.org.np/privacy/"
+}
