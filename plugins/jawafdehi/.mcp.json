@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "jawafdehi": {
+      "type": "http",
+      "url": "https://api.jawafdehi.org/mcp"
+    }
+  }
+}

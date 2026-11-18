@@ -12,7 +12,7 @@ claim links back to its source. This skill covers how to search that archive, ho
 answer from it, and what the organisation behind it is.
 
 The server is `https://api.jawafdehi.org/mcp`. Tools below are named without their
-client prefix; in Claude they appear as `jawafdehi:search_control_plane` and so on.
+client prefix; in Claude they appear as `jawafdehi:search_archive` and so on.
 
 ## Contents
 
@@ -22,7 +22,7 @@ client prefix; in Claude they appear as `jawafdehi:search_control_plane` and so 
 - Worked example
 - Searching in two scripts
 - Dates are Bikram Sambat
-- Anonymous or signed in
+- Signing in, and the two tools that change something
 - Traps you must know about
 - How to answer
 - Citing what you find
@@ -45,29 +45,32 @@ for exactly that reason. Get the number from the tools and report what they retu
 
 | The question is about | Call |
 |---|---|
-| Anything, and you don't know which corpus holds it | `search_control_plane` |
+| Anything, and you don't know which corpus holds it | `search_archive` |
 | A corruption or accountability case Jawafdehi has published | `search_jawafdehi_cases` → `get_jawafdehi_case` |
-| A **named** person, organisation or government body | `search_control_plane` with `type=["entity"]` → `get_nes_entities` |
-| Browsing or filtering the entity register by type, prefix or tag | `search_nes_entities`, with `get_nes_entity_prefixes` and `get_nes_tags` for the valid values |
-| Who changed an entity record, and when | `get_nes_entity_versions` |
+| A **named** person, organisation or government body | `search_archive` with `type=["entity"]` → `get_entities` |
+| Browsing or filtering the entity register by type, prefix or tag | `search_entities`, with `list_entity_prefixes` and `list_entity_tags` for the valid values |
+| Who changed an entity record, and when | `get_entity_history` |
 | A source document — press release, order, report, charge sheet | `browse_materials` |
 | A court case, hearing, bench or blacklisted firm | `browse_court_data` |
 | A date written in BS, or a Nepali fiscal year | `convert_date` |
+| Numbers and patterns across court cases (counts by court, year, verdict) | `query_court_records` (read-only SQL over the court tables) |
+| A document at a public web address that is not in the archive | `convert_to_markdown` |
 | Who the reader is signed in as | `get_current_user` |
+| The reader wants to report an error, suggest a source or send a tip | `send_feedback` (ask first; see below) |
 | What is *inside* a long document | the `jawafdehi-document-reader` skill |
 | Jawafdehi itself — what it is, who runs it, funding, reporting, reuse | `references/organisation.md` |
 | A Nepali or legal term in a result | `references/glossary.md` |
 
-For one named person or office, prefer `search_control_plane` restricted to entities: it
+For one named person or office, prefer `search_archive` restricted to entities: it
 spans the whole register and hands back the stable identifier. Reach for
-`search_nes_entities` when you are browsing or filtering rather than looking someone up.
+`search_entities` when you are browsing or filtering rather than looking someone up.
 
 Four of these take a canonical IRI or slug rather than a name. Get it from a search
 result; do not construct one by hand.
 
-**`NES` and `NGM` are legacy internal names.** They survive only inside tool names and
-identifiers. Never use them in an answer — say "the entity register" and "the court
-records".
+**`NES` and `NGM` are legacy internal names.** They may still appear in old identifiers
+and older documentation. Never use them in an answer — say "the entity register" and
+"the court records".
 
 ## Call order
 
@@ -75,14 +78,14 @@ Search first, read second. The search tools return slugs, IRIs and snippets chea
 only the `get_*` and `browse_* action=get` calls return a full record.
 
 ```
-- [ ] 1. Decide the corpus. Unsure → search_control_plane with type=[...]
+- [ ] 1. Decide the corpus. Unsure → search_archive with type=[...]
 - [ ] 2. Search it, in both scripts if the subject is a Nepali name
 - [ ] 3. Take the slug / IRI from the result
 - [ ] 4. Fetch the one record you need
 - [ ] 5. Cite the source URL for every factual claim
 ```
 
-`search_control_plane` is the one that spans everything: `type` accepts any of
+`search_archive` is the one that spans everything: `type` accepts any of
 `entity`, `material`, `courtcase`, `case`, and it returns per-type counts plus facets,
 so a single call tells you where the subject actually lives before you commit to a
 corpus.
@@ -91,7 +94,7 @@ corpus.
 
 **Question:** "Summarise Jawafdehi's case on the Giribandhu Tea Estate land swap."
 
-**Step 1** — `search_control_plane(q="Giribandhu")` → `counts: {material: 4, case: 1,
+**Step 1** — `search_archive(q="Giribandhu")` → `counts: {material: 4, case: 1,
 entity: 1}`. There is a published case, so the case corpus is the right place.
 
 **Step 2** — `search_jawafdehi_cases(search="Giribandhu")`:
@@ -112,8 +115,8 @@ the underlying document for any specific figure.
 
 Note what step 2 did **not** need: a case ID. `get_jawafdehi_case` takes the `slug`.
 Entity tools take the full canonical IRI instead —
-`https://jawafdehi.org/entity/person/ram-chandra-poudel` — and `get_nes_entities`
-accepts up to 100 of them in one call, so batch rather than looping.
+`https://jawafdehi.org/entity/person/ram-chandra-poudel` — passed as `entity_ids` to
+`get_entities`, which accepts up to 100 of them in one call, so batch rather than looping.
 
 ## Searching in two scripts
 
@@ -121,7 +124,7 @@ The archive is bilingual and Nepali names romanise inconsistently (Shrestha/Shre
 Paudel/Poudel/Paudyal, Chaudhary/Chaudhari). A single-script search is the most common
 reason a subject looks absent when it is not.
 
-- `search_control_plane` takes `lang` = `ne`, `en` or `both`. It defaults to `both` —
+- `search_archive` takes `lang` = `ne`, `en` or `both`. It defaults to `both` —
   leave it there unless you are deliberately isolating one language.
 - Search the Devanagari spelling as well as the Roman one when the subject is a Nepali
   person, office or place.
@@ -139,21 +142,32 @@ a time in `YYYY-MM-DD` form and works in Asia/Kathmandu. A BS year starts in mid
 so "2081" spans parts of both 2024 and 2025 — never map a BS year onto a single AD year.
 Nepal's fiscal year runs mid-July to mid-July.
 
-## Anonymous or signed in
+## Signing in, and the two tools that change something
 
-The server never returns `401`. An unauthenticated caller gets a successful response
-and a read-only catalogue of 12 tools. So:
+**Every tool needs sign-in.** The first call prompts the reader to sign in with a Google
+account; no Jawafdehi account or paid plan is needed, and one is created on first
+sign-in. If the tools are missing or every call fails with an authorisation error, the
+connection is not signed in: the reader reconnects and signs in. `get_current_user`
+shows who the server thinks the reader is and with which roles.
 
-- If a write tool (case drafting, entity writes, uploads) or a document-reading tool is
-  "missing", you are anonymous. Reconnecting will not change that; the user has to
-  authenticate.
-- `get_current_user` is the check. `"authenticated": true` plus roles means you are in;
-  `false` means you are on the public catalogue.
-- Seeing a tool is not permission to use it. Writes still answer to the caller's roles
-  (Caseworker, Moderator, Admin) at the API.
+A reader without a role sees the public catalogue: every read tool plus two that change
+something. Staff tools (case and entity writes, uploads, job management) are shown only
+to staff accounts, and the API still checks the caller's role on every write.
 
-Never attempt a write on the user's behalf without being asked to. Case and entity
-records are public, attributed, and versioned — every change is recorded as that
+The two that change something, and the rule for both — **show the reader exactly what
+will happen and get their agreement before calling either:**
+
+- `send_feedback` sends a message to the Jawafdehi team: a correction, a suggested
+  document or source, a bug report or a tip. By default it carries the reader's name
+  and email so the team can reply; `anonymous=true` sends it without them. Show the
+  reader the subject and text first.
+- `request_document_read` asks Jawafdehi to read a document it holds but has not read
+  (extracting it, and running OCR on a scan). It costs real money per page and can take
+  a while, so use it only when the reader wants that document's contents and a reading
+  tool reported `reading: "not started"`. See the `jawafdehi-document-reader` skill.
+
+Never call a staff write tool on the reader's behalf without being asked to. Case and
+entity records are public, attributed and versioned — every change is recorded as that
 person.
 
 ## Traps you must know about

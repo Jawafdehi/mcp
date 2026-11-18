@@ -5,14 +5,14 @@
     "url": "https://jawafdehi.org"
   },
   "metadata": {
-    "description": "Agent skills for the Jawafdehi MCP server at https://api.jawafdehi.org/mcp.",
-    "version": "0.2.0"
+    "description": "The Jawafdehi plugin: the MCP server at https://api.jawafdehi.org/mcp plus its research and document-reading skills.",
+    "version": "0.3.0"
   },
   "plugins": [
     {
-      "name": "jawafdehi-archive",
-      "source": "./skills/jawafdehi-archive",
-      "description": "Research Nepali corruption cases, public officials, government bodies and court records through the Jawafdehi MCP server, and answer from them with the archive's citation and legal-accuracy rules.",
+      "name": "jawafdehi",
+      "source": "./plugins/jawafdehi",
+      "description": "Search and read Nepal's open accountability archive (cases, people and organisations, court records, source documents) through the Jawafdehi MCP server, with skills for researching it and reading documents one part at a time.",
       "category": "research"
     }
   ]
