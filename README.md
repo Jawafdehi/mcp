@@ -162,7 +162,7 @@ machine with no browser use `claude mcp login jawafdehi --no-browser`; the callb
 
 ## Tools
 
-A signed-in reader sees these. Staff accounts also see tools that create, change or
+A signed-in reader sees these 20 tools. Staff accounts also see tools that create, change or
 delete records; they are not listed here.
 
 ### Read
@@ -172,11 +172,10 @@ delete records; they are not listed here.
 | `search_archive` | One search across entities, documents, court cases and published cases — start here when you don't know which part of the archive holds the answer |
 | `search_jawafdehi_cases` | Search published accountability cases by keywords, tags or case type |
 | `get_jawafdehi_case` | One case in full: allegations, entities involved, evidence cited |
-| `search_entities` | Search people, organisations and government bodies by text, type, prefix or tag |
+| `search_entities` | Search people, organisations and government bodies by text, type or prefix |
 | `get_entities` | Complete profiles for one or more entities, by ID |
 | `get_entity_history` | The edit history of one entity record |
 | `list_entity_prefixes` | The valid entity types and their metadata |
-| `list_entity_tags` | Every entity tag in use |
 | `browse_materials` | List source documents, or fetch one by its canonical IRI |
 | `list_document_sources` | Every document collection — CIAA and Auditor General reports, charge sheets, court orders — with its size and how much has been read |
 | `get_document_overview` | One document: page, table and figure counts, readability, links to the original PDF |

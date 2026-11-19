@@ -48,7 +48,7 @@ for exactly that reason. Get the number from the tools and report what they retu
 | Anything, and you don't know which corpus holds it | `search_archive` |
 | A corruption or accountability case Jawafdehi has published | `search_jawafdehi_cases` → `get_jawafdehi_case` |
 | A **named** person, organisation or government body | `search_archive` with `type=["entity"]` → `get_entities` |
-| Browsing or filtering the entity register by type, prefix or tag | `search_entities`, with `list_entity_prefixes` and `list_entity_tags` for the valid values |
+| Browsing or filtering the entity register by type or prefix | `search_entities`, with `list_entity_prefixes` for the valid values |
 | Who changed an entity record, and when | `get_entity_history` |
 | A source document — press release, order, report, charge sheet | `browse_materials` |
 | A court case, hearing, bench or blacklisted firm | `browse_court_data` |
