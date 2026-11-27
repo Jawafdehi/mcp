@@ -19,5 +19,8 @@
     "documents",
     "mcp"
   ],
-  "privacyPolicyUrl": "https://jawafdehi.org.np/privacy/"
+  "privacyPolicyUrl": "https://jawafdehi.org.np/privacy/",
+  "termsOfServiceUrl": "https://jawafdehi.org.np/terms/",
+  "documentationUrl": "https://jawafdehi.org.np/mcp/",
+  "supportUrl": "mailto:inquiry@jawafdehi.org.np"
 }
